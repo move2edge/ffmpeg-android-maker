@@ -1,1 +1,0 @@
-docker build -f ./tools/docker/custom2.Dockerfile ./tools/docker -t ffmpeg-android-maker:m2e
