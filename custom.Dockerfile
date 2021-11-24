@@ -18,7 +18,7 @@ ENV ANDROID_SDK_HOME=${HOME_TWIN}/android-sdk
 ENV ANDROID_NDK_HOME=${ANDROID_SDK_HOME}/ndk/${VERSION_NDK}
 
 # Installing basic software
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
   python3 \
   python3-pip \
   python3-setuptools \
@@ -30,11 +30,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   unzip \
   bash \
   nasm \
-  pkg-config \
-  make \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-  git \
   autoconf \
   automake \
   libtool \
@@ -43,10 +38,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   gperf \ 
   texinfo \
   yasm \
-  nasm \
   bison \
   autogen \ 
-  patch
+  patch \
+  git \
+  pkg-config \
+  make \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
 
 # Meson has to be installed in a different way
 RUN pip3 install meson==$VERSION_MESON
@@ -63,25 +62,15 @@ RUN installAndroidComponent() { yes | ${ANDROID_SDK_HOME}/cmdline-tools/bin/sdkm
   installAndroidComponent "ndk;${VERSION_NDK}" && \
   installAndroidComponent "cmake;${VERSION_CMAKE}"
 
-RUN apt update && DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends git \
-  autoconf \
-  automake \
-  libtool \
-  cmake \
-  gcc \
-  gperf \ 
-  texinfo \
-  yasm \
-  nasm \
-  bison \
-  autogen \ 
-  patch
-
-RUN git clone https://github.com/tanersener/ffmpeg-kit.git
-
 WORKDIR /ffmpeg-kit
 RUN cd /ffmpeg-kit
 
+RUN apt-get update -y && apt-get install -y --no-install-recommends \
+  gettext \
+  autopoint \
+  wget 
+
 # The command to be executed when a container is running
-CMD export ANDROID_SDK_ROOT=$ANDROID_SDK_HOME && export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME && cd /ffmpeg-kit && ./android.sh
-CMD export ANDROID_SDK_ROOT=$ANDROID_SDK_HOME && export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME && cd /ffmpeg-kit && ./android.sh
+CMD export ANDROID_SDK_ROOT=$ANDROID_SDK_HOME && \
+    export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME && \
+    ./android.sh --enable-opus --enable-gnutls --no-archive

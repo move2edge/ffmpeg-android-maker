@@ -5,3 +5,4 @@ stats
 .DS_Store
 .idea
 *.iml
+ffmpeg-kit/
