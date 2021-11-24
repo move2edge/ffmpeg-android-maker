@@ -107,6 +107,10 @@ for argument in "$@"; do
     EXTERNAL_LIBRARIES+=("libx264")
     FFMPEG_GPL_ENABLED=true
     ;;
+  --enable-gnutls | -gnutls)
+    EXTERNAL_LIBRARIES+=("gnutls")
+    FFMPEG_GPL_ENABLED=true
+    ;;
   --enable-all-free | -all-free)
     EXTERNAL_LIBRARIES+=" ${SUPPORTED_LIBRARIES_FREE[@]}"
     ;;

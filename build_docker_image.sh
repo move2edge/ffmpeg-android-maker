@@ -1,0 +1,1 @@
+docker build -f ./tools/docker/custom.Dockerfile ./tools/docker -t javernaut/ffmpeg-android-maker:m2e
