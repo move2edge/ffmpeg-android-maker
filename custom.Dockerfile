@@ -42,6 +42,9 @@ RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-i
   autogen \ 
   patch \
   git \
+  gettext \
+  autopoint \
+  wget \
   pkg-config \
   make \
     && apt-get clean \
@@ -64,11 +67,6 @@ RUN installAndroidComponent() { yes | ${ANDROID_SDK_HOME}/cmdline-tools/bin/sdkm
 
 WORKDIR /ffmpeg-kit
 RUN cd /ffmpeg-kit
-
-RUN apt-get update -y && apt-get install -y --no-install-recommends \
-  gettext \
-  autopoint \
-  wget 
 
 # The command to be executed when a container is running
 CMD export ANDROID_SDK_ROOT=$ANDROID_SDK_HOME && \
