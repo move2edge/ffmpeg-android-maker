@@ -108,6 +108,7 @@ for argument in "$@"; do
     FFMPEG_GPL_ENABLED=true
     ;;
   --enable-gnutls | -gnutls)
+    EXTERNAL_LIBRARIES+=("nettle")
     EXTERNAL_LIBRARIES+=("gnutls")
     FFMPEG_GPL_ENABLED=true
     ;;

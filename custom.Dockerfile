@@ -33,6 +33,7 @@ RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-i
   autoconf \
   automake \
   libtool \
+  libopus-dev \
   cmake \
   gcc \
   gperf \ 
@@ -46,9 +47,14 @@ RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-i
   autopoint \
   wget \
   pkg-config \
+  libgmp3-dev \
+  libmpfr-dev \
   make \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget https://ftp.gnu.org/gnu/nettle/nettle-3.5.tar.gz && \
+ tar xvfz nettle-3.5.tar.gz
 
 # Meson has to be installed in a different way
 RUN pip3 install meson==$VERSION_MESON
@@ -65,10 +71,11 @@ RUN installAndroidComponent() { yes | ${ANDROID_SDK_HOME}/cmdline-tools/bin/sdkm
   installAndroidComponent "ndk;${VERSION_NDK}" && \
   installAndroidComponent "cmake;${VERSION_CMAKE}"
 
-WORKDIR /ffmpeg-kit
-RUN cd /ffmpeg-kit
+#WORKDIR /ffmpeg-kit
+#RUN cd /ffmpeg-kit
 
 # The command to be executed when a container is running
-CMD export ANDROID_SDK_ROOT=$ANDROID_SDK_HOME && \
-    export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME && \
-    ./android.sh --enable-opus --enable-gnutls --no-archive
+#CMD export ANDROID_SDK_ROOT=$ANDROID_SDK_HOME && \
+    #export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME && \
+    #./android.sh --enable-gnutls --no-archive
+CMD cd /mnt/ffmpeg-android-maker && ./ffmpeg-android-maker.sh ${FAM_ARGS}

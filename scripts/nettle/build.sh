@@ -16,23 +16,11 @@ export PKG_CONFIG_PATH=${INSTALL_DIR}:$PKG_CONFIG_PATH
     --prefix=${INSTALL_DIR} \
     --host=${TARGET} \
     --with-sysroot=${SYSROOT_PATH} \
+    --enable-mini-gmp \
     --with-pic \
-    --with-included-libtasn1 \
-    --with-included-unistring \
-    --without-idn \
-    --without-p11-kit \
-    --enable-static \
-    ${HARDWARE_OPTIONS} \
-    --disable-openssl-compatibility \
-    --disable-shared \
-    --disable-fast-install \
-    --disable-code-coverage \
+    --disable-rtcd \
     --disable-doc \
-    --disable-manpages \
-    --disable-guile \
-    --disable-tests \
-    --disable-tools \
-    --disable-maintainer-mode
+    --disable-extra-programs
 
 ${MAKE_EXECUTABLE} clean
 ${MAKE_EXECUTABLE} -j${HOST_NPROC}
