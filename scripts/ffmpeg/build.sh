@@ -18,10 +18,14 @@ fi
 ADDITIONAL_COMPONENTS=
 for LIBARY_NAME in ${FFMPEG_EXTERNAL_LIBRARIES[@]}
 do
+  [ $LIBARY_NAME == "nettle" ] && continue
   ADDITIONAL_COMPONENTS+=" --enable-$LIBARY_NAME"
 done
 
+#export PKG_CONFIG_PATH=${INSTALL_DIR}:$PKG_CONFIG_PATH 
+
 # Referencing dependencies without pkgconfig
+export FFMPEG_EXTRA_LD_FLAGS="${FFMPEG_EXTRA_LD_FLAGS} -lhogweed -lnettle -lgnutls"
 DEP_CFLAGS="-I${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/include"
 DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
 

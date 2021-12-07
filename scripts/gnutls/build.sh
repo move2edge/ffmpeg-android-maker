@@ -10,8 +10,31 @@ case ${ANDROID_ABI} in
     ;;
 esac
 
-export PKG_CONFIG_PATH=${INSTALL_DIR}:$PKG_CONFIG_PATH 
+case $ANDROID_ABI in
+  x86)
+    EXTRA_BUILD_FLAGS="--target=x86-android-gcc --disable-sse4_1 --disable-avx --disable-avx2 --disable-avx512"
+    VPX_AS=${FAM_YASM}
+    ;;
+  x86_64)
+    EXTRA_BUILD_FLAGS="--target=x86_64-android-gcc --disable-avx --disable-avx2 --disable-avx512"
+    VPX_AS=${FAM_YASM}
+    ;;
+  armeabi-v7a)
+    EXTRA_BUILD_FLAGS="--target=armv7-android-gcc --enable-thumb --disable-neon"
+    ;;
+  arm64-v8a)
+    EXTRA_BUILD_FLAGS="--target=arm64-android-gcc --enable-thumb"
+    ;;
+esac
 
+export PKG_CONFIG_PATH=${INSTALL_DIR}:$PKG_CONFIG_PATH 
+CC=${FAM_CC} \
+CXX=${FAM_CXX} \
+AR=${FAM_AR} \
+LD=${FAM_LD} \
+AS=${VPX_AS} \
+STRIP=${FAM_STRIP} \
+NM=${FAM_NM} \
 ./configure \
     --prefix=${INSTALL_DIR} \
     --host=${TARGET} \
@@ -21,6 +44,7 @@ export PKG_CONFIG_PATH=${INSTALL_DIR}:$PKG_CONFIG_PATH
     --with-included-unistring \
     --without-idn \
     --without-p11-kit \
+    --with-nettle-mini \
     --enable-static \
     ${HARDWARE_OPTIONS} \
     --disable-openssl-compatibility \
@@ -33,6 +57,7 @@ export PKG_CONFIG_PATH=${INSTALL_DIR}:$PKG_CONFIG_PATH
     --disable-tests \
     --disable-tools \
     --disable-maintainer-mode
+
 
 ${MAKE_EXECUTABLE} clean
 ${MAKE_EXECUTABLE} -j${HOST_NPROC}

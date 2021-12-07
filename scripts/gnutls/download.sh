@@ -3,7 +3,7 @@
 source ${SCRIPTS_DIR}/common-functions.sh
 
 GNUTLS_MAJOR_VERSION=3.6
-GNUTLS_VERSION=3.6.13
+GNUTLS_VERSION=3.6.6
 
 downloadTarArchive \
   "gnutls" \
