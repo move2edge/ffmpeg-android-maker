@@ -31,6 +31,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
 
 ./configure \
   --prefix=${BUILD_DIR_FFMPEG}/${ANDROID_ABI} \
+  --disable-everything \
   --enable-cross-compile \
   --target-os=android \
   --arch=${TARGET_TRIPLE_MACHINE_ARCH} \
@@ -47,6 +48,13 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --extra-ldflags="$DEP_LD_FLAGS" \
   --enable-shared \
   --disable-static \
+  --disable-programs \
+  --disable-doc \
+  --enable-encoder=pcm_f32le,libopus \
+  --enable-decoder=pcm_f32le,libopus \
+  --enable-muxer=pcm_f32le,rtsp,rtp \
+  --enable-demuxer=pcm_f32le,rtsp,rtp \
+  --enable-filter=aresample,volume,aformat,arnndn \
   --pkg-config=${PKG_CONFIG_EXECUTABLE} \
   ${EXTRA_BUILD_CONFIGURATION_FLAGS} \
   $ADDITIONAL_COMPONENTS \

@@ -28,7 +28,7 @@ function ensureSourcesGit() {
   FFMPEG_SOURCES=$(pwd)/${GIT_DIRECTORY}
 
   if [[ ! -d "$FFMPEG_SOURCES" ]]; then
-    git clone https://git.ffmpeg.org/ffmpeg.git ${GIT_DIRECTORY}
+    git clone https://github.com/opensesamemedia/FFmpeg ${GIT_DIRECTORY}
   fi
 
   cd ${GIT_DIRECTORY}
