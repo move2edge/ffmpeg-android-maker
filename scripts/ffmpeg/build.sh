@@ -50,6 +50,7 @@ DEP_LD_FLAGS="-L${BUILD_DIR_EXTERNAL}/${ANDROID_ABI}/lib $FFMPEG_EXTRA_LD_FLAGS"
   --disable-static \
   --disable-programs \
   --disable-doc \
+  --enable-protocol=srtp,tls,https \
   --enable-encoder=pcm_f32le,libopus \
   --enable-decoder=pcm_f32le,libopus \
   --enable-muxer=pcm_f32le,rtsp,rtp \
